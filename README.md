@@ -1,56 +1,57 @@
-# 🏦 Yapay Sinir Ağları (YSA) ile Bireysel Kredi Risk Tahmini
+# 🏦 Retail Credit Risk Estimation with Artificial Neural Networks (ANN)
 
-🚀 **Canlı Demo (Web Uygulaması):** [Kredi Risk Tahmin Sistemini Deneyin](https://enes-kredi-risk.streamlit.app/)
+🚀 **Live Demo (Web App):** [Try the Credit Risk Estimation System](https://enes-kredi-risk.streamlit.app/)
+🇹🇷 **[Türkçe versiyon için tıklayın (Turkish Version)](README_tr.md)**
 
-Bu proje, bankacılık sektöründe sıkça karşılaşılan bireysel kredi temerrüt (default) riskini tahmin etmek amacıyla uçtan uca geliştirilmiş bir **Makine Öğrenmesi ve Derin Öğrenme** boru hattıdır (pipeline). Model sadece bir sınıflandırma yapmakla kalmaz; veri ön işleme, istatistiksel temizlik, finansal risk analizi ve **interaktif bir web arayüzü** süreçlerini kapsar.
+This project is an end-to-end **Machine Learning and Deep Learning** pipeline developed to predict retail credit default risk, a common problem in the banking sector. The model not only performs classification but also covers data preprocessing, statistical cleaning, financial risk analysis, and features an **interactive web interface**.
 
-## ⚙️ Kullanılan Teknolojiler ve Mimari
-* **Dil:** Python
-* **Web Arayüzü ve Dağıtım:** Streamlit
-* **Veri İşleme (Data Engineering):** Pandas, NumPy
-* **Makine Öğrenmesi & Ölçeklendirme:** Scikit-Learn
-* **Derin Öğrenme Mimarisi:** TensorFlow / Keras (Multi-Layer Perceptron)
-* **Veri Görselleştirme:** Matplotlib, Seaborn
+## ⚙️ Technologies and Architecture
+* **Language:** Python
+* **Web Interface & Deployment:** Streamlit
+* **Data Engineering:** Pandas, NumPy
+* **Machine Learning & Scaling:** Scikit-Learn
+* **Deep Learning Architecture:** TensorFlow / Keras (Multi-Layer Perceptron)
+* **Data Visualization:** Matplotlib, Seaborn
 
-## 🛠️ Veri Mühendisliği (Data Preprocessing) Adımları
-Gerçek dünya verilerindeki kirlilik ve eksiklikler, modele verilmeden önce veritabanı mantığıyla aşağıdaki adımlardan geçirilerek temizlenmiştir:
-1. **Eksik Veri Yönetimi:** `person_emp_length` (çalışma süresi) ve `loan_int_rate` (faiz oranı) sütunlarındaki null değerler, aykırı değerlerden etkilenmemesi adına **medyan (ortanca)** ile dolduruldu.
-2. **Aykırı Değer (Outlier) Temizliği:** Yaşı 144, çalışma süresi 123 yıl gibi veri giriş hataları barındıran satırlar mantıksal operatörlerle (yaş < 100 vb.) filtrelendi.
-3. **Kategorik Dönüşüm (One-Hot Encoding):** Metin tabanlı özellikler matris formatına çevrildi. Çoklu doğrusal bağlantıyı (Multicollinearity) ve Kukla Değişken Tuzağını (Dummy Variable Trap) engellemek için `drop_first=True` parametresi uygulandı.
-4. **Ölçeklendirme (Scaling):** Ağırlıkların (weights) optimizasyon sırasında domine edilmesini engellemek için tüm özellikler `StandardScaler` ile 0 ortalama ve 1 standart sapma olacak şekilde normalize edildi.
+## 🛠️ Data Engineering (Preprocessing) Steps
+To handle the impurities and missing values in real-world data, the following steps were applied with a database mindset before feeding the data to the model:
+1. **Missing Data Management:** Null values in `person_emp_length` and `loan_int_rate` were filled with the **median** to avoid the influence of outliers.
+2. **Outlier Cleaning:** Rows containing data entry errors (e.g., age 144, employment length 123 years) were filtered using logical operators.
+3. **Categorical Transformation (One-Hot Encoding):** Text-based features were converted into matrix format. The `drop_first=True` parameter was applied to prevent Multicollinearity and the Dummy Variable Trap.
+4. **Scaling:** To prevent weights from being dominated during optimization, all features were normalized using `StandardScaler` (mean=0, standard deviation=1).
 
-## 🧠 Model Mimarisi
-Projede **Çok Katmanlı Algılayıcı (MLP)** kullanılmıştır.
-* **Girdi Katmanı:** 22 özellik (feature).
-* **Gizli Katmanlar:** 64 ve 32 nöronlu iki katman. Kaybolan gradyan problemini önlemek için **ReLU** aktivasyon fonksiyonu kullanıldı.
-* **Regularizasyon:** Ağın ezberlemesini (Overfitting) engellemek için %20 oranında **Dropout** katmanları eklendi.
-* **Çıktı Katmanı:** Tek nöron ve risk olasılığını hesaplamak için **Sigmoid** aktivasyon fonksiyonu kullanıldı. Optimizasyon için `adam`, hata fonksiyonu olarak `binary_crossentropy` tercih edildi.
+## 🧠 Model Architecture
+A **Multi-Layer Perceptron (MLP)** was used for this project.
+* **Input Layer:** 22 features.
+* **Hidden Layers:** Two layers with 64 and 32 neurons. The **ReLU** activation function was used to prevent the vanishing gradient problem.
+* **Regularization:** **Dropout** layers (20%) were added to prevent the network from overfitting.
+* **Output Layer:** A single neuron with a **Sigmoid** activation function to calculate the risk probability. Optimized using `adam` and `binary_crossentropy` as the loss function.
 
-## 📊 Sonuçlar ve Performans Analizi
-Model 50 epoch boyunca eğitilmiş ve daha önce hiç görmediği %20'lik test verisi üzerinde sınanmıştır.
+## 📊 Results and Performance Analysis
+The model was trained for 50 epochs and evaluated on a 20% unseen test dataset.
 
-* **Genel Doğruluk (Accuracy):** %93
-* **Riskli Müşteriyi Tespit Kesinliği (Precision):** %96 
+* **Overall Accuracy:** 93%
+* **Precision (Detecting Risky Customers):** 96%
 
-> **Finansal Risk Yorumu:** Karmaşıklık Matrisi (Confusion Matrix) incelendiğinde, modelin "Riskli" dediği müşterilerin %96'sının gerçekten batık olduğu görülmüştür. Ancak dünyadaki tüm riskli müşterileri yakalama duyarlılığımız (Recall) %69 seviyesinde kalmıştır. Banka açısından bu 440 müşterinin (False Negative) gözden kaçmasının temel matematiksel sebebi veri setindeki **Sınıf Dengesizliğidir (Imbalanced Data)**. 
+> **Financial Risk Interpretation:** Analyzing the Confusion Matrix, 96% of the customers the model flagged as "Risky" were actual defaults. However, our sensitivity (Recall) in catching all risky customers in the world remained at 69%. From a banking perspective, the fundamental mathematical reason for missing these 440 customers (False Negatives) is the **Imbalanced Data** in our dataset.
 
-![Karmaşıklık Matrisi](image.png)
+![Confusion Matrix](image.png)
 
-## 🚀 Gelecek Çalışmalar (Future Work)
-Bir sonraki fazda, düşük kalan **Recall** değerini artırmak ve modelin azınlık sınıfı (riskli müşteriler) üzerindeki hassasiyetini güçlendirmek için **SMOTE** (Sentetik Azınlık Aşırı Örnekleme Tekniği) algoritması entegre edilecektir.
+## 🚀 Future Work
+In the next phase, the **SMOTE** (Synthetic Minority Over-sampling Technique) algorithm will be integrated to increase the low Recall value and strengthen the model's sensitivity on the minority class (risky customers).
 
-## 💻 Nasıl Çalıştırılır?
+## 💻 How to Run Locally
 
-Projeyi kendi bilgisayarınızda yerel (local) olarak çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
+To run this project on your local machine:
 
-1. Repoyu klonlayın:
+1. Clone the repository:
    ```bash
    git clone [https://github.com/enesornk/Credit-Risk-Estimation.git](https://github.com/enesornk/Credit-Risk-Estimation.git)
-2. Gerekli kütüphaneleri kurun:
+2. Install the required libraries:
     ```bash
     pip install -r requirements.txt
-3. Web Arayüzünü Başlatmak İçin:
+3. To Start the Web Interface:
     ```bash
    streamlit run app.py
-4. Model Eğitim Süreçlerini İncelemek İçin:
-    kredi_modeli.ipynb dosyasını Jupyter Notebook üzerinden açarak kod bloklarını adım adım çalıştırabilirsiniz.
+4. To Inspect the Model Training Process:
+    Open the kredi_modeli.ipynb file via Jupyter Notebook and run the cells sequentially.  
