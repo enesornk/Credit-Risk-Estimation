@@ -1,9 +1,12 @@
 # 🏦 Yapay Sinir Ağları (YSA) ile Bireysel Kredi Risk Tahmini
 
-Bu proje, bankacılık sektöründe sıkça karşılaşılan bireysel kredi temerrüt (default) riskini tahmin etmek amacıyla uçtan uca geliştirilmiş bir **Makine Öğrenmesi ve Derin Öğrenme** boru hattıdır (pipeline). Model sadece bir sınıflandırma yapmakla kalmaz, veri ön işleme, istatistiksel temizlik ve finansal risk analizi süreçlerini de kapsar.
+🚀 **Canlı Demo (Web Uygulaması):** [Kredi Risk Tahmin Sistemini Deneyin](https://enes-kredi-risk.streamlit.app/)
+
+Bu proje, bankacılık sektöründe sıkça karşılaşılan bireysel kredi temerrüt (default) riskini tahmin etmek amacıyla uçtan uca geliştirilmiş bir **Makine Öğrenmesi ve Derin Öğrenme** boru hattıdır (pipeline). Model sadece bir sınıflandırma yapmakla kalmaz; veri ön işleme, istatistiksel temizlik, finansal risk analizi ve **interaktif bir web arayüzü** süreçlerini kapsar.
 
 ## ⚙️ Kullanılan Teknolojiler ve Mimari
 * **Dil:** Python
+* **Web Arayüzü ve Dağıtım:** Streamlit
 * **Veri İşleme (Data Engineering):** Pandas, NumPy
 * **Makine Öğrenmesi & Ölçeklendirme:** Scikit-Learn
 * **Derin Öğrenme Mimarisi:** TensorFlow / Keras (Multi-Layer Perceptron)
@@ -37,8 +40,17 @@ Model 50 epoch boyunca eğitilmiş ve daha önce hiç görmediği %20'lik test v
 Bir sonraki fazda, düşük kalan **Recall** değerini artırmak ve modelin azınlık sınıfı (riskli müşteriler) üzerindeki hassasiyetini güçlendirmek için **SMOTE** (Sentetik Azınlık Aşırı Örnekleme Tekniği) algoritması entegre edilecektir.
 
 ## 💻 Nasıl Çalıştırılır?
-Projeyi kendi bilgisayarınızda çalıştırmak için:
-1. Repoyu klonlayın.
-2. Sanal ortam (virtual environment) oluşturun ve aktif edin.
-3. Gerekli kütüphaneleri kurun: `pip install pandas numpy scikit-learn tensorflow matplotlib seaborn jupyter`
-4. `kredi_modeli.ipynb` dosyasını Jupyter üzerinden açıp hücreleri sırayla çalıştırın.
+
+Projeyi kendi bilgisayarınızda yerel (local) olarak çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
+
+1. Repoyu klonlayın:
+   ```bash
+   git clone [https://github.com/enesornk/Credit-Risk-Estimation.git](https://github.com/enesornk/Credit-Risk-Estimation.git)
+2. Gerekli kütüphaneleri kurun:
+    ```bash
+    pip install -r requirements.txt
+3. Web Arayüzünü Başlatmak İçin:
+    ```bash
+   streamlit run app.py
+4. Model Eğitim Süreçlerini İncelemek İçin:
+    kredi_modeli.ipynb dosyasını Jupyter Notebook üzerinden açarak kod bloklarını adım adım çalıştırabilirsiniz.
